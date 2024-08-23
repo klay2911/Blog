@@ -9,7 +9,7 @@ namespace Blog.Application.Services.PostServices
 
         Task<PaginationResponse<PostResponse>> GetFilterAsync(PostFilterRequest request);
 
-        Task<PostResponse> CreateAsync(PostDTO dto, string createName, int assignedById);
+        Task<PostResponse> CreateAsync(PostDTO dto, string createName, int posterId);
 
         Task<PostResponse> UpdateAsync(int id, PostDTO dto);
 
