@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Blog.Application.DTOs.CommentDTOs;
+using Blog.Application.Services.CommentServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebAPI.Controllers
@@ -7,5 +8,25 @@ namespace Blog.WebAPI.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
+        private readonly ICommentService _commentService;
+
+        public CommentController(ICommentService commentService)
+        {
+            _commentService = commentService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCommentAsync(CommentDTO commentDto)
+        {
+            var comment = await _commentService.CreateCommentAsync(commentDto);
+            return Ok(comment);
+        }
+
+        [HttpGet("post/{postId}")]
+        public async Task<IActionResult> GetCommentsByPostIdAsync(int postId)
+        {
+            var comments = await _commentService.GetCommentsByPostIdAsync(postId);
+            return Ok(comments);
+        }
     }
 }

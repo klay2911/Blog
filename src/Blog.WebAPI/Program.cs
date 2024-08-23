@@ -1,4 +1,5 @@
 using Blog.Application.IRepositories;
+using Blog.Application.Services.CommentServices;
 using Blog.Application.Services.PostServices;
 using Blog.Infrastructure.Context;
 using Blog.Infrastructure.Repositories;
@@ -37,6 +38,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 var app = builder.Build();
 

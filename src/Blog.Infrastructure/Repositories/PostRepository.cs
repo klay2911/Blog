@@ -12,6 +12,10 @@ namespace Blog.Infrastructure.Repositories
         {
         }
 
+        public override async Task<Post?> GetByIdAsync(int id)
+        {
+            return await _table.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted != true);
+        }
         public async Task<PaginationResponse<Post>> GetFilterAsync (PostFilterRequest request)
         {
             IQueryable<Post> query = _table.Where(p => p.IsDeleted != true).Include(p => p.Comments);
