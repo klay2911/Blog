@@ -23,7 +23,7 @@ namespace Blog.Application.Services.CommentServices
             {
                 Content = commentCreateDto.Content,
                 PostId = commentCreateDto.PostId,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
                 CreatedBy = "Commenter"
             };
 
@@ -37,12 +37,6 @@ namespace Blog.Application.Services.CommentServices
         {
             var comment = await _commentRepository.GetByIdAsync(id) ?? throw new NotFoundException("Comment not found.");
             return _mapper.Map<CommentResponse>(comment);
-        }
-
-        public async Task<IEnumerable<CommentResponse>> GetCommentsByPostIdAsync(int postId)
-        {
-            var comments = await _commentRepository.GetByIdAsync(postId) ?? throw new NotFoundException("Comment not found.");
-            return _mapper.Map<IEnumerable<CommentResponse>>(comments);
         }
     }
 }

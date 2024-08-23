@@ -5,6 +5,5 @@ namespace Blog.Application.IRepositories
 {
     public interface ICommentRepository : IBaseRepository<Comment>
     {
-        //Task<PaginationResponse<Comment>> GetFilterAsync(PostFilterRequest request);
     }
 }

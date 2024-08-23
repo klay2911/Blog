@@ -6,6 +6,5 @@ namespace Blog.Application.Services.CommentServices
     {
         Task<CommentResponse> CreateCommentAsync(CommentDTO commentCreateDto);
         Task<CommentResponse> GetCommentByIdAsync(int id);
-        Task<IEnumerable<CommentResponse>> GetCommentsByPostIdAsync(int postId);
     }
 }

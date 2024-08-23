@@ -21,12 +21,5 @@ namespace Blog.WebAPI.Controllers
             var comment = await _commentService.CreateCommentAsync(commentDto);
             return Ok(comment);
         }
-
-        [HttpGet("post/{postId}")]
-        public async Task<IActionResult> GetCommentsByPostIdAsync(int postId)
-        {
-            var comments = await _commentService.GetCommentsByPostIdAsync(postId);
-            return Ok(comments);
-        }
     }
 }

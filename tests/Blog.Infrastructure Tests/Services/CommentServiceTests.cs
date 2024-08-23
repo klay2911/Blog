@@ -27,25 +27,27 @@ namespace Blog.Tests.Services
             _service = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
         }
 
-        //[Test]
-        //public async Task CreateCommentAsync_ValidComment_ReturnsCommentResponse()
-        //{
-        //    // Arrange
-        //    var commentDto = new CommentDTO { Content = "New Comment", PostId = 1 };
-        //    var comment = new Comment { Id = 1, Content = "New Comment", PostId = 1, CreatedAt = DateTime.UtcNow, CreatedBy = "Commenter" };
-        //    var commentResponse = new CommentResponse { PostId = 1, Content = "New Comment", CreatedAt = (DateTime)comment.CreatedAt, CreatedBy = "Commenter" };
+        [Test]
+        public async Task CreateCommentAsync_ValidComment_ReturnsCommentResponse()
+        {
+            // Arrange
+            var commentDto = new CommentDTO { Content = "New Comment", PostId = 1 };
+            var comment = new Comment { Id = 1, Content = "New Comment", PostId = 1, CreatedAt = DateTime.UtcNow, CreatedBy = "Commenter" };
+            var commentResponse = new CommentResponse { PostId = 1, Content = "New Comment", CreatedAt = comment.CreatedAt.Value, CreatedBy = "Commenter" };
 
-        //    _mockMapper.Setup(m => m.Map<Comment>(commentDto)).Returns(comment);
-        //    _mockCommentRepository.Setup(repo => repo.InsertAsync(comment)).Returns(Task.CompletedTask);
-        //    _mockCommentRepository.Setup(repo => repo.SaveChangeAsync()).Returns(Task.CompletedTask);
-        //    _mockMapper.Setup(m => m.Map<CommentResponse>(comment)).Returns(commentResponse);
+            _mockCommentRepository.Setup(repo => repo.InsertAsync(It.IsAny<Comment>())).Returns(Task.CompletedTask);
+            _mockCommentRepository.Setup(repo => repo.SaveChangeAsync()).Returns(Task.CompletedTask);
+            _mockMapper.Setup(m => m.Map<CommentResponse>(It.IsAny<Comment>())).Returns(commentResponse);
 
-        //    // Act
-        //    var result = await _service.CreateCommentAsync(commentDto);
+            // Act
+            var result = await _service.CreateCommentAsync(commentDto);
 
-        //    // Assert
-        //    Assert.That(result, Is.EqualTo(commentResponse));
-        //}
+            // Assert
+            _mockCommentRepository.Verify(repo => repo.InsertAsync(It.IsAny<Comment>()), Times.Once);
+            _mockCommentRepository.Verify(repo => repo.SaveChangeAsync(), Times.Once);
+            _mockMapper.Verify(m => m.Map<CommentResponse>(It.IsAny<Comment>()), Times.Once);
+            Assert.That(result, Is.EqualTo(commentResponse));
+        }
 
         [Test]
         public async Task GetCommentByIdAsync_CommentExists_ReturnsCommentResponse()
@@ -78,18 +80,20 @@ namespace Blog.Tests.Services
         //public async Task GetCommentsByPostIdAsync_CommentsExist_ReturnsCommentResponses()
         //{
         //    // Arrange
+        //    var postId = 1;
+        //    var post = new Post { Id = 1, Title = "Test Post", Content = "Test Content" };
         //    var comments = new List<Comment>
         //    {
         //        new Comment { Id = 1, Content = "Comment 1", PostId = 1 },
         //        new Comment { Id = 2, Content = "Comment 2", PostId = 1 }
         //    };
-        //    var commentResponses = new List<CommentResponse>
+        //            var commentResponses = new List<CommentResponse>
         //    {
         //        new CommentResponse { PostId = 1, Content = "Comment 1" },
         //        new CommentResponse { PostId = 1, Content = "Comment 2" }
         //    };
 
-        //    _mockCommentRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(comments);
+        //    //_mockCommentRepository.Setup(repo => repo.GetByIdAsync(postId)).ReturnsAsync(comments);
         //    _mockMapper.Setup(m => m.Map<IEnumerable<CommentResponse>>(comments)).Returns(commentResponses);
 
         //    // Act
@@ -99,14 +103,15 @@ namespace Blog.Tests.Services
         //    Assert.That(result, Is.EqualTo(commentResponses));
         //}
 
-        [Test]
-        public void GetCommentsByPostIdAsync_CommentsDoNotExist_ThrowsNotFoundException()
-        {
-            // Arrange
-            _mockCommentRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync((IEnumerable<Comment>?)null);
 
-            // Act & Assert
-            Assert.ThrowsAsync<NotFoundException>(() => _service.GetCommentsByPostIdAsync(1));
-        }
+        //[Test]
+        //public void GetCommentsByPostIdAsync_CommentsDoNotExist_ThrowsNotFoundException()
+        //{
+        //    // Arrange
+        //    _mockCommentRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync((IEnumerable<Comment>?)null);
+
+        //    // Act & Assert
+        //    Assert.ThrowsAsync<NotFoundException>(() => _service.GetCommentsByPostIdAsync(1));
+        //}
     }
 }

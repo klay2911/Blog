@@ -35,7 +35,7 @@ namespace Blog.Application.Services.PostServices
         {
             var post = _mapper.Map<Post>(postDto);
             post.CreatedBy = createName;
-            post.CreatedAt = DateTime.UtcNow;
+            post.CreatedAt = DateTime.Now;
 
             await _postRepository.InsertAsync(post);
             var dto = _mapper.Map<PostResponse>(post);
@@ -47,7 +47,7 @@ namespace Blog.Application.Services.PostServices
             var post = await _postRepository.GetByIdAsync(id) ?? throw new NotFoundException("Post not found.");
             post = _mapper.Map(postDto, post);
             post.ModifiedBy = "Vu";
-            post.ModifiedAt = DateTime.UtcNow;
+            post.ModifiedAt = DateTime.Now;
 
             await _postRepository.UpdateAsync(post);
             var dto = _mapper.Map<PostResponse>(post);
@@ -58,7 +58,7 @@ namespace Blog.Application.Services.PostServices
         {
             var post = await _postRepository.GetByIdAsync(id) ?? throw new NotFoundException("Post not found.");
             post.IsDeleted = true;
-            post.ModifiedAt = DateTime.UtcNow;
+            post.ModifiedAt = DateTime.Now;
             post.ModifiedBy = "Vu";
 
             await _postRepository.UpdateAsync(post);
