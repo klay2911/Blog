@@ -36,6 +36,8 @@ namespace Blog.Application.Services.PostServices
             var post = _mapper.Map<Post>(postDto);
             post.CreatedBy = createName;
             post.CreatedAt = DateTime.Now;
+            post.ModifiedBy = "Vu";
+            post.ModifiedAt = DateTime.Now;
 
             await _postRepository.InsertAsync(post);
             var dto = _mapper.Map<PostResponse>(post);
